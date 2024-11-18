@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <title>Payment Response</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 100px auto;
+      text-align: center;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .success-message {
+      color: #155724;
+      background-color: #d4edda;
+      padding: 15px;
+      border: 1px solid #c3e6cb;
+      border-radius: 5px;
+    }
+
+    .failure-message {
+      color: #721c24;
+      background-color: #f8d7da;
+      padding: 15px;
+      border: 1px solid #f5c6cb;
+      border-radius: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #005f73;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #00485e;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="payment-response-message"></div>
+    <button onclick="goBackToProducts()">Back to Products</button>
+  </div>
+
+  <script>
+    function goBackToProducts() {
+      window.location.href = 'index.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const success = urlParams.get('success');
+      const messageContainer = document.getElementById('payment-response-message');
+
+      if (success === 'true') {
+        messageContainer.innerHTML = '<div class="success-message">Payment Successful! Thank you for your order.</div>';
+      } else {
+        messageContainer.innerHTML = '<div class="failure-message">Payment Failed. Please try again.</div>';
+      }
+    });
+  </script>
+</body>
+</html>

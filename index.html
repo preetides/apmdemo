@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <style>
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .logo {
+      max-width: 100px;
+      height: auto;
+    }
+
+    .add-to-basket, button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #005f73;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-to-basket:hover, button:hover {
+      background-color: #00485e;
+    }
+
+    .demo-title {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    #alternative-methods {
+      display: none;
+    }
+
+    #alternative-methods img {
+      width: 100px;
+      height: auto;
+      margin: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    #alternative-methods img:hover {
+      transform: scale(1.05);
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #fcfdfe;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    nav a {
+      color: #004085;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #005f73;
+      color: #fff;
+    }
+
+    .payment-methods {
+      border: 1px solid #e1e1e1;
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="text"], input[type="number"], select, input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="submit"] {
+      background-color: #005f73;
+      color: white;
+    }
+
+    .cart-container {
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      background-color: #f8f9fa;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #cart {
+      background: url('https://cdn-icons-png.flaticon.com/512/1170/1170678.png') no-repeat left center;
+      background-size: 24px 24px;
+      padding-left: 40px;
+      border: none;
+      color: #333;
+      font-size: 16px;
+    }
+
+    fieldset {
+      border: none;
+      margin-top: 20px;
+    }
+
+    legend {
+      font-size: 18px;
+      color: #333;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .product {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .product:hover {
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      margin-bottom: 8px;
+    }
+
+    #payment-success {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+    <img src="https://images.ctfassets.net/9xz6pxlw3y5u/6LGOB86S1MLpe6RYTMJRFq/222da9fd685e348c3ee43bde096820c6/blue-logo.png?w=800&q=50" alt="Logo" class="logo">
+    <h1 class="demo-title">APEXX PAYMENT DEMO</h1>
+  </div>
+  <header>
+    <nav>
+      <a href="https://sandboxportalv2.apexx.global/">Portal</a>
+      <a href="https://sandbox.apexx.global/atomic/redoc/api/doc#operation/hostedPayUsingPOST">API Reference</a>
+      <a href="https://www.postman.com/flight-cosmonaut-99887655/workspace/apexx-workspace/overview">Postman</a>
+    </nav>
+  </header>
+  
+  <!-- Basket button -->
+  <div class="cart-container">
+    <button id="cart">Basket (0)</button>
+  </div>
+  
+  <main class="container">
+    <div class="products active">
+      <!-- Product 1 -->
+      <section class="product">
+        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Backpack" class="product-image">
+        <h2>Backpack</h2>
+        <p>Price: £80.00</p>
+        <button class="add-to-basket" data-amount="10000" data-name="Backpack">Add to Basket</button>
+      </section>
+
+      <!-- Product 2 -->
+      <section class="product">
+        <img src="https://images.unsplash.com/photo-1517991104123-1d56a6e81ed9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Desk Lamp" class="product-image">
+        <h2>Desk Lamp</h2>
+        <p>Price: £90.00</p>
+        <button class="add-to-basket" data-amount="20000" data-name="Desk Lamp">Add to Basket</button>
+      </section>
+
+      <!-- Product 3 -->
+      <section class="product">
+        <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Wireless Speaker" class="product-image">
+        <h2>Wireless Speaker</h2>
+        <p>Price: £110.00</p>
+        <button class="add-to-basket" data-amount="30000" data-name="Wireless Speaker">Add to Basket</button>
+      </section>
+    </div>
+    
+    <div class="payment-methods" id="payment-options-page">
+      <h2>Choose Payment Method</h2>
+      <label>
+        <input type="radio" name="payment-method" value="card" checked> Pay with Credit/Debit Card
+      </label>
+      <label>
+        <input type="radio" name="payment-method" value="alternative"> Pay with other Alternative Payments
+      </label>
+      <div id="alternative-methods">
+        <img src="https://getlogo.net/wp-content/uploads/2020/03/sofort-logo-vector.png" alt="SOFORT">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/IDEAL_Logo.png" alt="iDeal">
+        <img src="https://business.afterpay.com/rs/539-RJA-633/images/CP_logo_lockup_6328x2204_blackclear_png.png" alt="Clearpay">
+        <img src="https://docs.klarna.com/assets/media/502240a8-506e-44b3-84eb-d8e57609ab93/Marketing_Badge_With_Clear_Space.png" alt="Klarna">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bancontact_logo.svg/1280px-Bancontact_logo.svg.png" alt="BANCONTACT">
+        <img src="https://logowik.com/content/uploads/images/affirm9276.jpg" alt="Affirm">
+        <img src="https://logowik.com/content/uploads/images/sezzle4755.jpg" alt="Sezzle">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/35/Zip_Logo.svg" alt="Zip">
+      </div>
+
+      <button id="confirm-payment">Confirm Payment</button>
+      <button id="back-to-products">Back to Products</button>
+
+      <!-- Success Message -->
+      <div id="payment-response" style="display: none;">
+    <h2>Payment Successful</h2>
+    <p>Thank you for your order. You will be redirected back to the products page shortly.</p>
+</div>
+    </div>
+  </main>
+
+  <script src="payment.js"></script>
+</body>
+</html>
